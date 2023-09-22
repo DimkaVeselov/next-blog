@@ -4,6 +4,8 @@ import utilStyles from '../styles/utils.module.scss';
 import { getSortedPostsData } from '../lib/posts';
 import Link from 'next/link';
 import Date from '../components/date';
+import { useEffect, useState } from 'react';
+import Loading from '../components/loading';
 
 export async function getStaticProps() {
 	const allPostsData = getSortedPostsData();
@@ -15,33 +17,43 @@ export async function getStaticProps() {
 }
 
 export default function Home({ allPostsData }) {
+	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		setLoading(true);
+	});
+
 	return (
 		<Layout home>
 			<Head>
 				<title>{siteTitle}</title>
 			</Head>
 			<section className={utilStyles.headingMd}>
-				<p>
-					Frontend в{' '}
-					<a href='https://multitech.agency/#ru' target='_blank'>
-						Multitech
-					</a>
-				</p>
+				<p>Frontend в</p>
+				<a href='https://multitech.agency/#ru' target='_blank'>
+					Multitech
+				</a>
 			</section>
 
-			<section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+			<section className={` ${utilStyles.padding1px}`}>
 				<h2 className={utilStyles.headingLg}>Блог</h2>
-				<ul className={utilStyles.list}>
-					{allPostsData.map(({ id, date, title }) => (
-						<li className={utilStyles.listItem} key={id}>
-							<Link href={`/posts/${id}`}>{title}</Link>
-							<br />
-							<small className={[utilStyles.lightText, utilStyles.mainDate ].join(' ')}>
-								<Date dateString={date} />
-							</small>
-						</li>
-					))}
-				</ul>
+				{loading ? (
+					<ul className={utilStyles.list}>
+						{allPostsData.map(({ id, date, title }) => (
+							<li className={utilStyles.listItem} key={id}>
+								<Link href={`/posts/${id}`}>{title}</Link>
+								<small
+									className={[utilStyles.lightText, utilStyles.mainDate].join(
+										' ',
+									)}>
+									<Date dateString={date} />
+								</small>
+							</li>
+						))}
+					</ul>
+				) : (
+					<Loading />
+				)}
 			</section>
 		</Layout>
 	);
