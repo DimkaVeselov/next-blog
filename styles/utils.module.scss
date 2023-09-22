@@ -52,7 +52,14 @@
 }
 
 .lightText {
+	display: flex;
+	justify-content: flex-end;
 	color: #666;
+	margin-top: 0.5em;
+
+	&.mainDate {
+			justify-content: flex-start;
+	}
 }
 
 
