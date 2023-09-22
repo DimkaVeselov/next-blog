@@ -2,6 +2,8 @@ import Layout from '../../components/layout';
 import { getAllPostIds, getPostData } from '../../lib/posts';
 import Head from 'next/head';
 import Date from '../../components/date';
+import { useState, useEffect } from 'react';
+import Loading from '../../components/loading';
 
 import utilStyles from '../../styles/utils.module.scss';
 
@@ -23,6 +25,12 @@ export async function getStaticPaths() {
 }
 
 export default function Post({ postData }) {
+	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		setLoading(true);
+	});
+
 	return (
 		<Layout>
 			<Head>
