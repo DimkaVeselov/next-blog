@@ -6,7 +6,7 @@ export default function Date({ dateString }) {
 
 	return (
 		<time dateTime={dateString}>
-			{format(date, 'd LLLL yyyy', { locale: ru })}
+			{format(date, 'LLLL yyyy', { locale: ru })}
 		</time>
 	);
 }
